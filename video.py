@@ -6,15 +6,14 @@ import random
 import textures
 import sprite
 
-sprites = []
-
+drawables = []
 def draw ():
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
   glMatrixMode(GL_MODELVIEW)
   glLoadIdentity()
-
-  for sprite in sprites:
-    sprite.draw()
+  
+  for d in drawables:
+    d.draw()
   
   glFlush()
   pygame.display.flip()
@@ -38,15 +37,14 @@ def init_opengl():
 
   
 def init():
-    pygame.display.set_mode((config.getint("video", "width"),config.getint("video", "height")), pygame.DOUBLEBUF|pygame.OPENGL, 24)
-    init_opengl()
-    sprites.append(sprite.Sprite(textures.get("smile"), (200, 200), (400, 300)))
-
+  pygame.display.set_mode((config.getint("video", "width"),config.getint("video", "height")), pygame.DOUBLEBUF|pygame.OPENGL, 24)
+  init_opengl()
+  
 def shutdown():
-  sprites = []
   textures.clear()
 
 def do_frame():
-    draw()
+  draw()
 
-
+def add_entity(drawable):
+  drawables.append(drawable)

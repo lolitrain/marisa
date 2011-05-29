@@ -3,15 +3,14 @@ from textures import Texture
 from OpenGL.GL import *
 
 class Sprite:
-    def __init__(self, texture, dims, pos):
+    def __init__(self, texture, dims):
         self.texture = texture
         self.width = dims[0]
         self.height = dims[1]
-        self.pos = pos
 
-    def draw(self):
+    def draw(self, pos):
         glPushMatrix()
-        glTranslate(self.pos[0], self.pos[1], 0)
+        glTranslate(pos[0], pos[1], 0)
         self.texture.bind()
         glBegin(GL_QUADS)
         glTexCoord(0,0)
