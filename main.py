@@ -4,9 +4,8 @@ import pygame
 from pygame.locals import *
 import config
 import video
-from entity import Entity
-import textures
-from sprite import Sprite
+from testscript import TestScript
+import timer
 
 def quit():
     video.shutdown()
@@ -18,19 +17,15 @@ config.read("config.cfg")
 config.read("autoexec.cfg")
 pygame.init()
 video.init()
+testscript = TestScript()
 
-smile_sprite = Sprite(textures.get("smile"), (64,64))
-smile_bullet = Entity(smile_sprite)
-video.add_entity(smile_bullet)
-
-clock = pygame.time.Clock()
-time = clock.tick(60)
+timer.init()
 while True:
-    time = clock.tick(60)
+    timer.tick(60)
     event = pygame.event.poll()
     if event.type == QUIT:
         quit()
 
-    smile_bullet.do_frame(time)
+    testscript.do_frame()
     video.do_frame()
 

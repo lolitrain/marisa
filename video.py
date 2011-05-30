@@ -6,14 +6,15 @@ import random
 import textures
 import sprite
 
-drawables = []
+draw_hooks = []
+
 def draw ():
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
   glMatrixMode(GL_MODELVIEW)
   glLoadIdentity()
-  
-  for d in drawables:
-    d.draw()
+
+  for hook in draw_hooks:
+    hook()
   
   glFlush()
   pygame.display.flip()
@@ -46,5 +47,5 @@ def shutdown():
 def do_frame():
   draw()
 
-def add_entity(drawable):
-  drawables.append(drawable)
+def add_draw_hook(func):
+  draw_hooks.append(func)
