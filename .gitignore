@@ -1,0 +1,10 @@
+# Compiled python files
+*.pyc
+
+# Texture files
+# Better to keep the source gimp file and then re convert it back to texture
+*.png
+
+#misc files
+*.log
+*.cfg
