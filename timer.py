@@ -23,4 +23,14 @@ def gettime():
 def fps():
     return 1000.0/frame_time
 
+# Script utility function
+# waits a certain number of milliseconds
+def wait(msec):
+    start = gettime()
+    current_time = gettime()
+    while current_time - start < msec:
+        yield
+        current_time = gettime()
+
+
 

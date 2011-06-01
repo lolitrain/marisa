@@ -9,9 +9,9 @@ class Sprite:
         self.height = dims[1]
 
     def draw(self, pos):
+        self.texture.bind()
         glPushMatrix()
         glTranslate(pos[0], pos[1], 0)
-        self.texture.bind()
         glBegin(GL_QUADS)
         glTexCoord(0,0)
         glVertex(-self.width/2, -self.height/2)

@@ -6,16 +6,8 @@ from bulletmanager import SimpleBullet
 import textures
 from sprite import *
 import random
-
-
-# waits returns after a certain number of milliseconds
-def wait(msec):
-    start = timer.gettime()
-    current_time = timer.gettime()
-    while current_time - start < msec:
-        yield
-        current_time = timer.gettime();
-    
+from fps_counter import FpsCounter
+from OpenGL.GL import *
 
 class TestEmmiter:
     def __init__(self):
@@ -25,14 +17,9 @@ class TestEmmiter:
         pass
 
     def do_frame(self):
-#        start = timer.gettime()
         max_bullets = 1
         while True:
- #           current_time = timer.gettime()
-  #          while current_time-start < 1000:
-   #             yield
-    #            current_time = timer.gettime()
-            for w in wait(1000):
+            for w in timer.wait(1000):
                 yield
 
             for i in range(max_bullets):
@@ -44,16 +31,26 @@ class TestEmmiter:
             
             start = timer.gettime()
 
+        
+
 class TestScript:
     def __init__(self):
         video.add_draw_hook(getattr(self, "draw"))
-        self.emmiter = TestEmmiter()
-        gen = self.emmiter.do_frame()
-        self.emmiter_frame_function = getattr(gen, "next")
-
+        self.script = TestEmmiter()
+        self.script_frame = self.script.do_frame()
+        self.counter = FpsCounter()
+        self.counter_frame = self.counter.do_frame()
+            
     def draw(self):
+        self.counter.draw()
         bulletmanager.draw()
+        error = glGetError()
+        if error == GL_NO_ERROR:
+            pass
+        else:
+            print error
 
     def do_frame(self):
-        self.emmiter_frame_function()
+        self.script_frame.next()
+        self.counter_frame.next()
         bulletmanager.do_frame()
