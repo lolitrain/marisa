@@ -4,8 +4,10 @@ import pygame
 from pygame.locals import *
 import config
 import video
-from testscript import TestScript
+from testscript import TestStage
 import timer
+import scriptmanager
+import bulletmanager
 
 def quit():
     video.shutdown()
@@ -17,15 +19,18 @@ config.read("config.cfg")
 config.read("autoexec.cfg")
 pygame.init()
 video.init()
-testscript = TestScript()
-
 timer.init()
+scriptmanager.init()
+bulletmanager.init()
+
+scriptmanager.add_script(TestStage())
 while True:
     timer.tick(60)
     event = pygame.event.poll()
     if event.type == QUIT:
         quit()
 
-    testscript.do_frame()
+    scriptmanager.do_frame()
+    bulletmanager.do_frame()
     video.do_frame()
 

@@ -1,5 +1,6 @@
 from vector import *
 import timer
+import video
 
 class SimpleBullet:
     def __init__(self, sprite, start, headto, speed):
@@ -20,8 +21,14 @@ class SimpleBullet:
 
 active_bullets = []
 
+def init():
+    video.add_draw_hook(draw)
+
 def add_bullet(bullet):
     active_bullets.append(bullet)
+
+def bullet_count():
+    return len(active_bullets)
 
 def do_frame():
     global active_bullets

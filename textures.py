@@ -15,10 +15,10 @@ class Texture:
                    GL_UNSIGNED_BYTE, data)
 
   def __del__(self):
-      glDeleteTextures([self.texture])
+    glDeleteTextures([self.texture])
 
   def bind(self):
-      glBindTexture(GL_TEXTURE_2D, self.texture)
+    glBindTexture(GL_TEXTURE_2D, self.texture)
 
 textures = {}
 
