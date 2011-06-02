@@ -18,7 +18,6 @@ class Texture:
       glDeleteTextures([self.texture])
 
   def bind(self):
-      print "Bind texture %d" % self.texture
       glBindTexture(GL_TEXTURE_2D, self.texture)
 
 textures = {}

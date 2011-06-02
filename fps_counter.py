@@ -14,6 +14,5 @@ class FpsCounter:
                 yield
 
     def draw(self):
-        pass
-#        self.font.show_text((0, 600-16), "%f" % self.fps)
+        self.font.show_text((0, 600-16), "%f" % self.fps)
 
