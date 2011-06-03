@@ -24,8 +24,8 @@ def init_opengl():
   glShadeModel(GL_SMOOTH)
   glClearColor(random.random(), random.random(), random.random(), 0)
   glClearDepth(1);
-  glEnable(GL_DEPTH_TEST)
-  glDepthFunc(GL_LEQUAL)
+#  glEnable(GL_DEPTH_TEST)
+#  glDepthFunc(GL_LEQUAL)
 
   glViewport(0, 0, 800, 600)
   glMatrixMode(GL_PROJECTION)
