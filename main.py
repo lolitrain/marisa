@@ -8,6 +8,7 @@ from testscript import TestStage
 import timer
 import scriptmanager
 import bulletmanager
+import console
 
 def quit():
     video.shutdown()
@@ -23,6 +24,8 @@ timer.init()
 scriptmanager.init()
 bulletmanager.init()
 
+scriptmanager.add_script(console.Console())
+console.write("Starting Touhou...")
 scriptmanager.add_script(TestStage())
 while True:
     timer.tick(60)

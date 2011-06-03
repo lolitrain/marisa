@@ -1,8 +1,10 @@
 import pygame
 from OpenGL.GL import *
+import console
 
 class Texture:
   def __init__(self, filename):
+    console.write("Loading texture %s" % filename)
     surface = pygame.image.load(filename)
     data = pygame.image.tostring(surface, "RGBA", 1)
     self.width = surface.get_width()
