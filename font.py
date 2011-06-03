@@ -24,7 +24,7 @@ class Font:
         v2 = 1-(float(glyph_line*self.fheight) / self.texture.height)
 
         glPushMatrix()
-        glTranslate(pos[0], pos[1], 1)
+        glTranslate(pos[0], pos[1], 0.5)
         glBegin(GL_QUADS)
         glTexCoord(u1, v1)
         glVertex(0, 0)

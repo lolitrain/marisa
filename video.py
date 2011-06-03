@@ -5,6 +5,7 @@ import config
 import random
 import textures
 import sprite
+import console
 
 draw_hooks = []
 
@@ -40,6 +41,7 @@ def init_opengl():
 def init():
   pygame.display.set_mode((config.getint("video", "width"),config.getint("video", "height")), pygame.DOUBLEBUF|pygame.OPENGL, 24)
   init_opengl()
+  console.write("Initializing video")
   
 def shutdown():
   textures.clear()

@@ -11,6 +11,8 @@ import bulletmanager
 import console
 
 def quit():
+    bulletmanager.shutdown()
+    scriptmanager.shutdown()
     video.shutdown()
     pygame.quit()
     config.save("config.cfg")

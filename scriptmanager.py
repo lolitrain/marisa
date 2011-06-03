@@ -1,4 +1,5 @@
 import video
+import console
 
 # decorator that lets the script engine know that the method is coroutine
 def coroutine(func):
@@ -32,12 +33,17 @@ def draw():
 def init():
     video.add_draw_hook(draw)
 
+def shutdown():
+    active_scripts = {}
+
 
 def add_script(script):
     pending_adds.append(script)
+    console.write("Adding script %s" % script)
 
 def remove_script(script):
     pending_removal.append(script)
+    console.write("Removing script %s" % script)
 
 
 def do_frame():

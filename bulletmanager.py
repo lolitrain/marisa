@@ -24,6 +24,9 @@ active_bullets = []
 def init():
     video.add_draw_hook(draw)
 
+def shutdown():
+    active_bullets = None
+
 def add_bullet(bullet):
     active_bullets.append(bullet)
 
