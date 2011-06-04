@@ -1,6 +1,6 @@
 import textures
 from textures import Texture
-from OpenGL.GL import *
+import video
 
 class Sprite:
     def __init__(self, texture, dims):
@@ -10,16 +10,13 @@ class Sprite:
 
     def draw(self, pos):
         self.texture.bind()
-        glPushMatrix()
-        glTranslate(pos[0], pos[1], 0)
-        glBegin(GL_QUADS)
-        glTexCoord(0,0)
-        glVertex(-self.width/2, -self.height/2)
-        glTexCoord(0,1)
-        glVertex(-self.width/2, self.height/2)
-        glTexCoord(1,1)
-        glVertex(self.width/2, self.height/2)
-        glTexCoord(1,0)
-        glVertex(self.width/2, -self.height/2)
-        glEnd()
-        glPopMatrix()
+
+        x1 = pos[0] - self.width/2
+        y1 = pos[1] - self.height/2
+        x2 = pos[0] + self.width/2
+        y2 = pos[1] + self.height/2
+
+        video.vertex((x1, y1), (0,0))
+        video.vertex((x1, y2), (0,1))
+        video.vertex((x2, y2), (1,1))
+        video.vertex((x2, y1), (1,0))

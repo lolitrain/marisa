@@ -1,6 +1,7 @@
 import pygame
 from OpenGL.GL import *
 import console
+import video
 
 class Texture:
   def __init__(self, filename):
@@ -20,7 +21,8 @@ class Texture:
     glDeleteTextures([self.texture])
 
   def bind(self):
-    glBindTexture(GL_TEXTURE_2D, self.texture)
+#    glBindTexture(GL_TEXTURE_2D, self.texture)
+    video.bind_texture(self.texture)
 
 textures = {}
 

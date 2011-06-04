@@ -1,4 +1,4 @@
-from OpenGL.GL import *
+import video
 
 class Font:
     def __init__(self, texture, fwidth, fheight, chars_per_line):
@@ -23,16 +23,13 @@ class Font:
         v1 = 1-(float((glyph_line+1) * self.fheight) / self.texture.height)
         v2 = 1-(float(glyph_line*self.fheight) / self.texture.height)
 
-        glPushMatrix()
-        glTranslate(pos[0], pos[1], 0.5)
-        glBegin(GL_QUADS)
-        glTexCoord(u1, v1)
-        glVertex(0, 0)
-        glTexCoord(u1, v2)
-        glVertex(0, self.fheight)
-        glTexCoord(u2, v2)
-        glVertex(self.fwidth, self.fheight)
-        glTexCoord(u2, v1)
-        glVertex(self.fwidth, 0)
-        glEnd()
-        glPopMatrix()
+        x1 = pos[0]
+        x2 = pos[0]+self.fwidth
+        y1 = pos[1]
+        y2 = pos[1]+self.fheight
+
+        video.vertex((x1, y1), (u1,v1))
+        video.vertex((x1, y2), (u1,v2))
+        video.vertex((x2, y2), (u2,v2))
+        video.vertex((x2, y1), (u2,v1))
+

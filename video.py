@@ -9,6 +9,23 @@ import console
 
 draw_hooks = []
 
+binded_textures = {}
+current_texture = -1
+
+def bind_texture(texture):
+  if texture not in binded_textures:
+    binded_textures[texture] = ([], [])
+
+  global current_texture  
+  current_texture = texture
+
+def vertex(vertex, tex):
+  vertex_array = binded_textures[current_texture][0]
+  tex_array = binded_textures[current_texture][1]
+
+  vertex_array.append(vertex)
+  tex_array.append(tex)
+
 def draw ():
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
   glMatrixMode(GL_MODELVIEW)
@@ -16,6 +33,20 @@ def draw ():
 
   for hook in draw_hooks:
     hook()
+    
+  global binded_textures
+  for texture in binded_textures.iterkeys():
+    vertex_array = binded_textures[texture][0]
+    tex_array = binded_textures[texture][1]
+
+    glBindTexture(GL_TEXTURE_2D, texture)
+    glBegin(GL_QUADS)
+    for vertex, tex in zip(vertex_array, tex_array):
+      glTexCoord(tex[0], tex[1])
+      glVertex(vertex[0], vertex[1])
+    glEnd()
+
+  binded_textures = {}
   
   glFlush()
   pygame.display.flip()
