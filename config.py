@@ -6,6 +6,9 @@ parser.read(["default.cfg"])
 def getint(section, option):
     return parser.getint(section, option)
 
+def getbool(section, option):
+    return parser.getboolean(section, option)
+
 
 def read(filename):
     try:

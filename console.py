@@ -3,6 +3,7 @@ import textures
 from font import *
 from scriptmanager import coroutine
 import collections
+import config
 
 active_console=None
 
@@ -40,6 +41,8 @@ class Console:
 
         
 def write(text):
+    if not config.getbool("debug", "console"): return
+
     global active_console
     if active_console:
         active_console.write(text)
