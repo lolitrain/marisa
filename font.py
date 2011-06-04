@@ -28,8 +28,8 @@ class Font:
         y1 = pos[1]
         y2 = pos[1]+self.fheight
 
-        video.vertex((x1, y1), (u1,v1))
-        video.vertex((x1, y2), (u1,v2))
-        video.vertex((x2, y2), (u2,v2))
-        video.vertex((x2, y1), (u2,v1))
+        video.vertex((x1, y1, 0), (u1,v1))
+        video.vertex((x1, y2, 0), (u1,v2))
+        video.vertex((x2, y2, 0), (u2,v2))
+        video.vertex((x2, y1, 0), (u2,v1))
 

@@ -31,6 +31,9 @@ bulletmanager.init()
 scriptmanager.add_script(console.Console())
 console.write("Starting Touhou...")
 scriptmanager.add_script(TestStage())
+
+pygame.event.set_allowed(None)
+pygame.event.set_allowed(QUIT)
 while True:
     timer.tick(60)
     event = pygame.event.poll()

@@ -22,7 +22,7 @@ class Texture:
 
   def bind(self):
 #    glBindTexture(GL_TEXTURE_2D, self.texture)
-    video.bind_texture(self.texture)
+    video.bind(self.texture)
 
 textures = {}
 
