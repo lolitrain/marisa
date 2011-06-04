@@ -33,7 +33,7 @@ class TestEmmiter2:
     @coroutine
     def do_frame(self):
         while True:
-            add_bullets = 128 - bulletmanager.bullet_count()
+            add_bullets = 256 - bulletmanager.bullet_count()
             if add_bullets > 0:
                 for i in range(add_bullets):
                     bullet = SimpleBullet(self.sprites[random.randint(0, 1)], \

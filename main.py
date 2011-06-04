@@ -1,4 +1,6 @@
 #!/usr/bin/python
+import OpenGL
+OpenGL.ERROR_CHECKING=False
 import sys
 import pygame
 from pygame.locals import *
