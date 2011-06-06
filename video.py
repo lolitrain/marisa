@@ -6,9 +6,6 @@ def init():
   pygame.display.set_mode((800, 600), pygame.DOUBLEBUF|pygame.OPENGL, 24)
   renderer.init()
 
-def vertex(vertex, tex):
-  renderer.vertex(vertex, tex)
-
 def shutdown():
   textures.clear()
 
