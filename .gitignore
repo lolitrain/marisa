@@ -1,5 +1,7 @@
-# Compiled python files
+# Compiled files
 *.pyc
+*.o
+*.so
 
 # Texture files
 # Better to keep the source gimp file and then re convert it back to texture
@@ -8,3 +10,4 @@
 #misc files
 *.log
 *.cfg
+*~
