@@ -1,28 +1,18 @@
-import pygame
-from OpenGL.GL import *
 import console
 import video
+import renderer
 
 class Texture:
   def __init__(self, filename):
-    console.write("Loading texture %s" % filename)
-    surface = pygame.image.load(filename)
-    data = pygame.image.tostring(surface, "RGBA", 1)
-    self.width = surface.get_width()
-    self.height = surface.get_height()
-    self.texture = glGenTextures(1)
-    glBindTexture(GL_TEXTURE_2D, self.texture)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self.width, self.height, 0, GL_RGBA, \
-                   GL_UNSIGNED_BYTE, data)
+    self.texture = renderer.load_texture(filename)
+    self.width = renderer.texture_width(self.texture)
+    self.height = renderer.texture_height(self.texture)
 
   def __del__(self):
-    glDeleteTextures([self.texture])
+    renderer.free_texture(self.texture)
 
   def bind(self):
-#    glBindTexture(GL_TEXTURE_2D, self.texture)
-    video.bind(self.texture)
+    renderer.bind(self.texture)
 
 textures = {}
 
