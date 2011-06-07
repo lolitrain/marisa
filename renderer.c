@@ -5,6 +5,7 @@
 
 #include "texture.h"
 #include "gl_renderer.h"
+#include "sprite.h"
 
 static PyObject* renderer_init(PyObject* self, PyObject* args)
 {
@@ -99,7 +100,7 @@ static PyObject* renderer_vertex(PyObject* self, PyObject* args)
 	return Py_None;
 }
 
-PyMethodDef renderer_methods[] = 
+static PyMethodDef renderer_methods[] = 
 {
 	{"init", renderer_init, METH_VARARGS, "Starts the rendering subsystem"},
 	{"do_frame", renderer_do_frame, METH_VARARGS, "Draws one frame"},
@@ -114,7 +115,93 @@ PyMethodDef renderer_methods[] =
 	{NULL, NULL, 0, NULL}
 };
 
+struct py_sprite {
+	PyObject_HEAD
+	/* Type-specific fields go here. */
+	struct sprite s;
+};
+
+
+static int py_sprite_init(struct py_sprite* self, PyObject* args, PyObject* kwargs)
+{
+	if(!PyArg_ParseTuple(args, "ffi", &self->s.width, &self->s.height, &self->s.texture))
+		return -1;
+
+	return 0;
+}
+
+static PyObject* py_sprite_draw(struct py_sprite* self, PyObject* args)
+{
+	float cx, cy;
+	if(!PyArg_ParseTuple(args, "(ff)", &cx, &cy))
+		return NULL;
+
+	sprite_draw(&self->s, cx, cy);
+	
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+
+static PyMethodDef py_sprite_methods[] = 
+{
+	{"draw", (PyCFunction)py_sprite_draw, METH_VARARGS, "Draws a sprite on the screen"},
+
+	{NULL, NULL, 0, NULL}
+};
+
+static PyTypeObject sprite_type = {
+    PyObject_HEAD_INIT(NULL)
+    0,                         /*ob_size*/
+    "renderer.Sprite",             /*tp_name*/
+    sizeof(struct py_sprite), /*tp_basicsize*/
+    0,                         /*tp_itemsize*/
+    0,                         /*tp_dealloc*/
+    0,                         /*tp_print*/
+    0,                         /*tp_getattr*/
+    0,                         /*tp_setattr*/
+    0,                         /*tp_compare*/
+    0,                         /*tp_repr*/
+    0,                         /*tp_as_number*/
+    0,                         /*tp_as_sequence*/
+    0,                         /*tp_as_mapping*/
+    0,                         /*tp_hash */
+    0,                         /*tp_call*/
+    0,                         /*tp_str*/
+    0,                         /*tp_getattro*/
+    0,                         /*tp_setattro*/
+    0,                         /*tp_as_buffer*/
+    Py_TPFLAGS_DEFAULT,        /*tp_flags*/
+    "Sprite Object",           /* tp_doc */
+    0,		               /* tp_traverse */
+    0,		               /* tp_clear */
+    0,		               /* tp_richcompare */
+    0,		               /* tp_weaklistoffset */
+    0,		               /* tp_iter */
+    0,		               /* tp_iternext */
+    py_sprite_methods,         /* tp_methods */
+    0,                         /* tp_members */
+    0,                         /* tp_getset */
+    0,                         /* tp_base */
+    0,                         /* tp_dict */
+    0,                         /* tp_descr_get */
+    0,                         /* tp_descr_set */
+    0,                         /* tp_dictoffset */
+    (initproc)py_sprite_init,      /* tp_init */
+    0,                         /* tp_alloc */
+    0,                         /* tp_new */
+};
+
 void initrenderer()
 {
-	Py_InitModule("renderer", renderer_methods);
+	PyObject* m;
+	sprite_type.tp_new = PyType_GenericNew;
+	if(PyType_Ready(&sprite_type) < 0)
+	{
+		printf("Sprite Type was not ready\n");
+		return;
+	}
+	m = Py_InitModule("renderer", renderer_methods);
+	Py_INCREF(&sprite_type);
+	PyModule_AddObject(m, "Sprite", (PyObject*)&sprite_type);
 }

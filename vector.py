@@ -28,3 +28,6 @@ class vector:
     
     def __getitem__(self, i):
         return self.vec[i]
+
+    def __len__(self):
+        return 2
