@@ -1,7 +1,7 @@
 CFLAGS=-Wall -I/usr/include/python2.7
 LDFLAGS=-lGL -lpng
 
-OBJS=renderer.o texture.o gl_renderer.o sprite.o
+OBJS=renderer.o texture.o gl_renderer.o sprite.o font.o
 
 all: renderermodule.so
 

@@ -6,6 +6,7 @@
 #include "texture.h"
 #include "gl_renderer.h"
 #include "sprite.h"
+#include "font.h"
 
 static PyObject* renderer_init(PyObject* self, PyObject* args)
 {
@@ -192,16 +193,104 @@ static PyTypeObject sprite_type = {
     0,                         /* tp_new */
 };
 
+struct py_font {
+	PyObject_HEAD
+	/* Type-specific fields go here. */
+	struct font f;
+};
+
+
+static int py_font_init(struct py_font* self, PyObject* args, PyObject* kwargs)
+{
+	if(!PyArg_ParseTuple(args, "iiii", &self->f.texture, &self->f.cwidth, &self->f.cheight, &self->f.chars_per_line))
+		return -1;
+
+	return 0;
+}
+
+static PyObject* py_font_show_text(struct py_font* self, PyObject* args)
+{
+	const char* str;
+	float bx, by;
+	if(!PyArg_ParseTuple(args, "(ff)s", &bx, &by, &str))
+		return NULL;
+
+	font_show_text(&self->f, str, bx, by);
+	
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+
+static PyMethodDef py_font_methods[] = 
+{
+	{"show_text", (PyCFunction)py_font_show_text, METH_VARARGS, "Prints text on the screen"},
+
+	{NULL, NULL, 0, NULL}
+};
+
+static PyTypeObject font_type = {
+    PyObject_HEAD_INIT(NULL)
+    0,                         /*ob_size*/
+    "renderer.Font",             /*tp_name*/
+    sizeof(struct py_font), /*tp_basicsize*/
+    0,                         /*tp_itemsize*/
+    0,                         /*tp_dealloc*/
+    0,                         /*tp_print*/
+    0,                         /*tp_getattr*/
+    0,                         /*tp_setattr*/
+    0,                         /*tp_compare*/
+    0,                         /*tp_repr*/
+    0,                         /*tp_as_number*/
+    0,                         /*tp_as_sequence*/
+    0,                         /*tp_as_mapping*/
+    0,                         /*tp_hash */
+    0,                         /*tp_call*/
+    0,                         /*tp_str*/
+    0,                         /*tp_getattro*/
+    0,                         /*tp_setattro*/
+    0,                         /*tp_as_buffer*/
+    Py_TPFLAGS_DEFAULT,        /*tp_flags*/
+    "Font Object",           /* tp_doc */
+    0,		               /* tp_traverse */
+    0,		               /* tp_clear */
+    0,		               /* tp_richcompare */
+    0,		               /* tp_weaklistoffset */
+    0,		               /* tp_iter */
+    0,		               /* tp_iternext */
+    py_font_methods,         /* tp_methods */
+    0,                         /* tp_members */
+    0,                         /* tp_getset */
+    0,                         /* tp_base */
+    0,                         /* tp_dict */
+    0,                         /* tp_descr_get */
+    0,                         /* tp_descr_set */
+    0,                         /* tp_dictoffset */
+    (initproc)py_font_init,      /* tp_init */
+    0,                         /* tp_alloc */
+    0,                         /* tp_new */
+};
+
+
 void initrenderer()
 {
 	PyObject* m;
 	sprite_type.tp_new = PyType_GenericNew;
+	font_type.tp_new = PyType_GenericNew;
 	if(PyType_Ready(&sprite_type) < 0)
 	{
 		printf("Sprite Type was not ready\n");
 		return;
 	}
+
+	if(PyType_Ready(&font_type) < 0)
+	{
+		printf("Font type was not ready\n");
+		return;
+	}
 	m = Py_InitModule("renderer", renderer_methods);
 	Py_INCREF(&sprite_type);
 	PyModule_AddObject(m, "Sprite", (PyObject*)&sprite_type);
+	Py_INCREF(&font_type);
+	PyModule_AddObject(m, "Font", (PyObject*)&font_type);
 }

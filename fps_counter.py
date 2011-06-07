@@ -1,11 +1,11 @@
 import textures
-from font import *
+from renderer import Font
 import timer
 from scriptmanager import coroutine
 
 class FpsCounter:
     def __init__(self):
-        self.font = Font(textures.get("console_font"), 8, 15, 47)
+        self.font = Font(textures.get("console_font").texture, 8, 15, 47)
         self.fps = 0.0
 
     @coroutine

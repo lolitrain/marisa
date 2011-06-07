@@ -2,7 +2,7 @@ import bulletmanager
 import timer
 from bulletmanager import SimpleBullet
 import textures
-from sprite import *
+from sprite import Sprite
 import random
 import scriptmanager
 from scriptmanager import coroutine

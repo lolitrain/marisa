@@ -1,6 +1,6 @@
 import timer
 import textures
-from font import *
+from renderer import Font
 from scriptmanager import coroutine
 import collections
 import config
@@ -16,7 +16,7 @@ class Console:
         self.buffer = collections.deque()
         active_console = self
         
-        self.font = Font(textures.get("console_font"), 8, 16, 47)
+        self.font = Font(textures.get("console_font").texture, 8, 16, 47)
     
         
     def write(self, text):
@@ -36,7 +36,7 @@ class Console:
         offset = 0
         for line in self.buffer:
             self.font.show_text((0, offset), line)
-            offset += self.font.fheight
+            offset += 16
 
 
         
