@@ -3,10 +3,12 @@
 #include <GL/glu.h>
 #include <stdio.h>
 
+#include "list.h"
 #include "texture.h"
 #include "gl_renderer.h"
 #include "sprite.h"
 #include "font.h"
+#include "bullets.h"
 
 static PyObject* renderer_init(PyObject* self, PyObject* args)
 {
@@ -101,27 +103,36 @@ static PyObject* renderer_vertex(PyObject* self, PyObject* args)
 	return Py_None;
 }
 
-static PyMethodDef renderer_methods[] = 
+long frame_time = 0;
+static PyObject* renderer_set_frame_time(PyObject* self, PyObject* args)
 {
-	{"init", renderer_init, METH_VARARGS, "Starts the rendering subsystem"},
-	{"do_frame", renderer_do_frame, METH_VARARGS, "Draws one frame"},
-	{"load_texture", renderer_load_texture, METH_VARARGS, "Loads a texture from a png file"},
-	{"free_texture", renderer_free_texture, METH_VARARGS, "Releases resources used by the texture"},
-	{"bind", renderer_bind, METH_VARARGS, "Bind a texture"},
-	{"texture_width", renderer_texture_width, METH_VARARGS, "Get texture width"},
-	{"texture_height", renderer_texture_height, METH_VARARGS, "Get texture height"},
-	{"vertex", renderer_vertex, METH_VARARGS, "Loads a vertex into the renderer"},
-	{"shutdown", renderer_shutdown, METH_VARARGS, "shuts down the renderer subsystem"},
+	if(!PyArg_ParseTuple(args, "i", &frame_time))
+	   return NULL;
 
-	{NULL, NULL, 0, NULL}
-};
+	Py_INCREF(Py_None);
+	return Py_None;
+}
 
-struct py_sprite {
-	PyObject_HEAD
-	/* Type-specific fields go here. */
-	struct sprite s;
-};
+static PyObject* renderer_bullets_draw(PyObject* self, PyObject* args)
+{
+	bullets_draw();
 
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+static PyObject* renderer_bullets_do_frame(PyObject* self, PyObject* args)
+{
+	bullets_do_frame();
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+static PyObject* renderer_bullets_count(PyObject* self, PyObject* args)
+{
+	return PyLong_FromLong(bullets_count());
+}
 
 static int py_sprite_init(struct py_sprite* self, PyObject* args, PyObject* kwargs)
 {
@@ -269,6 +280,51 @@ static PyTypeObject font_type = {
     (initproc)py_font_init,      /* tp_init */
     0,                         /* tp_alloc */
     0,                         /* tp_new */
+};
+
+
+static PyObject* renderer_bullet_create(PyObject* self, PyObject* args)
+{
+	struct py_sprite* sprite;
+	struct vector2d start, headto;
+	float speed;
+	if(!PyArg_ParseTuple(args, "O!(ff)(ff)f", &sprite_type, &sprite, &start.vec[0], &start.vec[1], &headto.vec[0], &headto.vec[1], &speed))
+	   return NULL;
+
+	if(bullet_create(&sprite->s, start, headto, speed) < 0)
+		return NULL;
+	
+	get_sprite(&sprite->s);
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+static PyObject* renderer_bullets_shutdown(PyObject* self, PyObject* args)
+{
+	bullets_shutdown();
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+static PyMethodDef renderer_methods[] = 
+{
+	{"init", renderer_init, METH_VARARGS, "Starts the rendering subsystem"},
+	{"do_frame", renderer_do_frame, METH_VARARGS, "Draws one frame"},
+	{"load_texture", renderer_load_texture, METH_VARARGS, "Loads a texture from a png file"},
+	{"free_texture", renderer_free_texture, METH_VARARGS, "Releases resources used by the texture"},
+	{"bind", renderer_bind, METH_VARARGS, "Bind a texture"},
+	{"texture_width", renderer_texture_width, METH_VARARGS, "Get texture width"},
+	{"texture_height", renderer_texture_height, METH_VARARGS, "Get texture height"},
+	{"vertex", renderer_vertex, METH_VARARGS, "Loads a vertex into the renderer"},
+	{"shutdown", renderer_shutdown, METH_VARARGS, "shuts down the renderer subsystem"},
+	{"set_frame_time", renderer_set_frame_time, METH_VARARGS, "Sets the current frame time for C code"},
+	{"bullets_draw", renderer_bullets_draw, METH_VARARGS, "Draws all current bullets on the screen"},
+	{"bullets_do_frame", renderer_bullets_do_frame, METH_VARARGS, "Calculates one frame of bullet motion"},
+	{"bullets_count", renderer_bullets_count, METH_VARARGS, "Returns the number of active bullets"},
+	{"bullets_shutdown", renderer_bullets_shutdown, METH_VARARGS, "Clears all the bullets"},
+	{"bullet_create", renderer_bullet_create, METH_VARARGS, "Adds a new bullet"},
+	
+	{NULL, NULL, 0, NULL}
 };
 
 

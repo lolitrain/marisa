@@ -1,6 +1,5 @@
 import bulletmanager
 import timer
-from bulletmanager import SimpleBullet
 import textures
 from sprite import Sprite
 import random
@@ -20,8 +19,7 @@ class TestEmmiter1:
                 yield
 
             for i in range(max_bullets):
-                bullet = SimpleBullet(self.sprite, (400, 300), (random.randint(0, 800), random.randint(0, 600)), 0.3)
-                bulletmanager.add_bullet(bullet)
+                bulletmanager.add_bullet(self.sprite, (400, 300), (random.randint(0, 800), random.randint(0, 600)), 0.3)
             
             if max_bullets < 64:
                 max_bullets  = max_bullets*2
@@ -37,10 +35,9 @@ class TestEmmiter2:
             add_bullets = self.max_bullets - bulletmanager.bullet_count()
             if add_bullets > 0:
                 for i in range(add_bullets):
-                    bullet = SimpleBullet(self.sprites[random.randint(0, 1)], \
+                    bulletmanager.add_bullet(self.sprites[random.randint(0, 1)], \
                                           (random.randint(0, 800), random.randint(0, 600)), \
                                               (random.randint(0, 800), random.randint(0, 600)), random.random())
-                    bulletmanager.add_bullet(bullet)
             yield
 
 

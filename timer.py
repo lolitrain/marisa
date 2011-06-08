@@ -1,4 +1,5 @@
 import pygame
+import renderer
 
 current_time = 0
 frame_time = 0
@@ -14,6 +15,7 @@ def tick(framerate):
     if wait > 0:
         pygame.time.wait(wait)
     frame_time = pygame.time.get_ticks() - current_time
+    renderer.set_frame_time(frame_time)
     current_time = pygame.time.get_ticks()
     return passed_time
 

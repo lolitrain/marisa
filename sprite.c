@@ -1,5 +1,7 @@
+#include <Python.h>
 #include <GL/gl.h>
 
+#include "list.h"
 #include "sprite.h"
 #include "gl_renderer.h"
 
