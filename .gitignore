@@ -10,4 +10,5 @@
 #misc files
 *.log
 *.cfg
+*.d
 *~
