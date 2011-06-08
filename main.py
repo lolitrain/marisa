@@ -6,11 +6,12 @@ import pygame
 from pygame.locals import *
 import config
 import video
-from testscript import TestStage
+from demo import DemoStage
 import timer
 import scriptmanager
 import bulletmanager
 import console
+import inputmanager
 
 def quit():
     bulletmanager.shutdown()
@@ -27,18 +28,19 @@ video.init()
 timer.init()
 scriptmanager.init()
 bulletmanager.init()
+inputmanager.init()
 
+inputmanager.bind(K_ESCAPE, lambda x: quit())
 scriptmanager.add_script(console.Console())
-console.write("Starting Touhou...")
-scriptmanager.add_script(TestStage())
+main_script = DemoStage()
 
-pygame.event.set_allowed(None)
-pygame.event.set_allowed(QUIT)
 while True:
     timer.tick(60)
     event = pygame.event.poll()
     if event.type == QUIT:
         quit()
+    elif event.type != NOEVENT:
+        inputmanager.handle(event)
 
     scriptmanager.do_frame()
     bulletmanager.do_frame()
