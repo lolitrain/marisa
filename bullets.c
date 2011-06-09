@@ -3,40 +3,12 @@
 #include "list.h"
 #include "bullets.h"
 #include "sprite.h"
+#include "gl_math.h"
 
 static struct list_head bullet_list = INIT_LIST_HEAD(bullet_list);
 extern long frame_time;
 int bullet_count = 0;
 
-struct vector2d vec_add(struct vector2d a, struct vector2d b)
-{
-	struct vector2d ret = { {a.vec[0]+b.vec[0], a.vec[1]+b.vec[1]}};
-	return ret;
-}
-
-struct vector2d vec_sub(struct vector2d a, struct vector2d b)
-{
-	struct vector2d ret = { {a.vec[0]-b.vec[0], a.vec[1]-b.vec[1]}};
-	return ret;
-}
-
-struct vector2d scalar_mult(struct vector2d a, float scalar)
-{
-	struct vector2d ret = {{a.vec[0]*scalar, a.vec[1]*scalar}};
-	return ret;
-}
-
-struct vector2d scalar_div(struct vector2d a, float scalar)
-{
-	struct vector2d ret = {{a.vec[0]/scalar, a.vec[1]/scalar}};
-	return ret;
-}
-
-struct vector2d normalize(struct vector2d a)
-{
-	float length = sqrt(a.vec[0]*a.vec[0] + a.vec[1]*a.vec[1]);
-	return scalar_div(a, length);
-}
 
 int bullet_create(struct sprite* s, struct vector2d start, struct vector2d headto, float speed)
 {
@@ -77,7 +49,7 @@ void bullet_do_frame(struct simple_bullet* b)
 
 void bullet_draw(struct simple_bullet* b)
 {
-	sprite_draw(b->sprite, b->pos.vec[0], b->pos.vec[1]);
+	sprite_draw(b->sprite, b->pos.vec[0], b->pos.vec[1], 0);
 }
 
 int bullets_count()

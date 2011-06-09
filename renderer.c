@@ -145,10 +145,11 @@ static int py_sprite_init(struct py_sprite* self, PyObject* args, PyObject* kwar
 static PyObject* py_sprite_draw(struct py_sprite* self, PyObject* args)
 {
 	float cx, cy;
-	if(!PyArg_ParseTuple(args, "(ff)", &cx, &cy))
+	float angle;
+	if(!PyArg_ParseTuple(args, "(ff)f", &cx, &cy, &angle))
 		return NULL;
 
-	sprite_draw(&self->s, cx, cy);
+	sprite_draw(&self->s, cx, cy, angle);
 	
 	Py_INCREF(Py_None);
 	return Py_None;

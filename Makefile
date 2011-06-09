@@ -1,4 +1,4 @@
-CFLAGS=-Wall -I/usr/include/python2.7
+CFLAGS=-g -Wall -I/usr/include/python2.7
 LDFLAGS=-lGL -lpng
 
 SRCS=renderer.c texture.c gl_renderer.c sprite.c font.c bullets.c
@@ -21,6 +21,7 @@ clean:
 	@-rm -f *.d
 	@-rm -f *.o
 	@-rm -f *.so
+	@-rm -f *.pyc *~
 
 include $(SRCS:.c=.d)
 

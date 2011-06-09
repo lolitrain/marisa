@@ -7,6 +7,7 @@ from pygame.locals import *
 import config
 import video
 from demo import DemoStage
+from testscript import TestStage
 import timer
 import scriptmanager
 import bulletmanager
@@ -32,7 +33,7 @@ inputmanager.init()
 
 inputmanager.bind(K_ESCAPE, lambda x: quit())
 scriptmanager.add_script(console.Console())
-main_script = DemoStage()
+main_script = TestStage()
 
 while True:
     timer.tick(60)

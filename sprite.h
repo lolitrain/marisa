@@ -14,7 +14,7 @@ struct py_sprite {
 };
 
 
-void sprite_draw(struct sprite* s, float cx, float cy);
+void sprite_draw(struct sprite* s, float cx, float cy, float angle);
 
 static inline void get_sprite(struct sprite* s)
 {

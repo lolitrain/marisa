@@ -1,10 +1,7 @@
 #ifndef BULLETS_H
 #define BULLETS_H
 
-struct vector2d
-{
-	float vec[2];
-};
+#include "gl_math.h"
 
 struct simple_bullet
 {

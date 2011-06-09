@@ -44,15 +44,11 @@ class TestEmmiter2:
         
 class TestStage:
     def __init__(self):
-#        self.test_emmiter1 = TestEmmiter1()
+        self.test_emmiter1 = TestEmmiter1()
         self.test_emmiter2 = TestEmmiter2(512)
         self. fps_counter = FpsCounter()
-        
-    @coroutine
-    def do_frame(self):
+
         scriptmanager.add_script(self.test_emmiter2)
         scriptmanager.add_script(self.fps_counter)
- #       for w in timer.wait(11000): yield
-  #      scriptmanager.add_script(self.test_emmiter2)
-        while True:
-            yield
+
+        

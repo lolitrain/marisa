@@ -9,8 +9,8 @@
 
 #define MAX_VERTICES 2000
 
-static float* vertices[MAX_TEXTURES];
-static float* texs[MAX_TEXTURES];
+static float vertices[MAX_TEXTURES][3*MAX_VERTICES];
+static float texs[MAX_TEXTURES][2*MAX_VERTICES];
 
 static int current_texture;
 static int current_vertex[MAX_TEXTURES];
@@ -79,13 +79,8 @@ void gl_vertex(float v1, float v2, float v3, float u, float v)
 
 void gl_init()
 {
-	int i;
 	memset(current_vertex, 0, sizeof(current_vertex));
-	for(i=0;i<MAX_TEXTURES; i++)
-	{
-		vertices[i] = (float*)malloc(3*MAX_VERTICES*sizeof(float));
-		texs[i] = (float*)malloc(2*MAX_VERTICES*sizeof(float));
-	}
+
 	glClearColor(0.7f, 0.7f, 1.0f, 0.0f);
 
 	glViewport(0,0, 800, 600);
@@ -105,12 +100,7 @@ void gl_init()
 
 void gl_shutdown()
 {
-	int i;
-	for(i=0; i<MAX_TEXTURES; i++)
-	{
-		free(vertices[i]);
-		free(texs[i]);
-	}
+
 }
 
 
