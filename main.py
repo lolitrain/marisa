@@ -33,7 +33,7 @@ inputmanager.init()
 
 inputmanager.bind(K_ESCAPE, lambda x: quit())
 scriptmanager.add_script(console.Console())
-main_script = TestStage()
+main_script = DemoStage()
 
 while True:
     timer.tick(60)
