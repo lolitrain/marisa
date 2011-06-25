@@ -13,7 +13,7 @@ import timer
 
 class PlayerScript:
     def __init__(self):
-        self.sprite = Sprite(textures.get("smile"), (64,64))
+        self.sprite = Sprite(textures.get("player"), (32,32))
         self.pos = [400, 300]
         self.angle = 90
         self.angular_velocity = 0;

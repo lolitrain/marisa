@@ -81,7 +81,7 @@ void gl_init()
 {
 	memset(current_vertex, 0, sizeof(current_vertex));
 
-	glClearColor(0.7f, 0.7f, 1.0f, 0.0f);
+	glClearColor(0,0,0,1);
 
 	glViewport(0,0, 800, 600);
 	glMatrixMode(GL_PROJECTION);
