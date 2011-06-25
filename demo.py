@@ -10,6 +10,7 @@ from pygame.locals import *
 from math import *
 from renderer import ftime
 import timer
+from random import randint
 
 class PlayerScript:
     def __init__(self):
@@ -92,10 +93,23 @@ class PlayerShot:
                 for w in timer.wait(100):
                     yield
 
+class AsteroidSpawner:
+    def __init__(self):
+        self.sprite = Sprite(textures.get("rock1"), (64,64))
+
+    @coroutine
+    def do_frame(self):
+        while(True):
+            bulletmanager.add_bullet_angle(self.sprite, (randint(0, 800), randint(0, 600)), randint(0, 360), 100)
+
+            for w in timer.wait(2000):
+                yield
+
                     
 
 class DemoStage:
     def __init__(self):
         scriptmanager.add_script(PlayerScript())
         scriptmanager.add_script(fps_counter.FpsCounter())
+        scriptmanager.add_script(AsteroidSpawner())
 
