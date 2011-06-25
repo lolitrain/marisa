@@ -39,11 +39,9 @@ def shutdown():
 
 def add_script(script):
     pending_adds.append(script)
-    console.write("Adding script %s" % script)
 
 def remove_script(script):
     pending_removal.append(script)
-    console.write("Removing script %s" % script)
 
 
 def do_frame():
