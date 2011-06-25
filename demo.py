@@ -14,7 +14,7 @@ import timer
 class PlayerScript:
     def __init__(self):
         self.sprite = Sprite(textures.get("smile"), (64,64))
-        self.pos = (400, 300)
+        self.pos = [400, 300]
         self.angle = 90
         self.angular_velocity = 0;
         self.acceleration = 0
@@ -66,7 +66,13 @@ class PlayerScript:
             if self.speed > 300: self.speed = 300
             if self.speed < 0: self.speed = 0
 
-            self.pos = (self.pos[0] + self.speed*ftime()*cos(radians(self.angle)), self.pos[1]+self.speed*ftime()*sin(radians(self.angle)))
+            self.pos = [self.pos[0] + self.speed*ftime()*cos(radians(self.angle)), self.pos[1]+self.speed*ftime()*sin(radians(self.angle))]
+            
+            if self.pos[0] < 0: self.pos[0] += 800
+            elif self.pos[0] > 800: self.pos[0] -= 800
+
+            if self.pos[1] < 0: self.pos[1] += 600
+            elif self.pos[1] > 600: self.pos[1] -= 600
             yield
 
     def draw(self):
