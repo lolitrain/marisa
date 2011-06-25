@@ -9,6 +9,7 @@
 #include "sprite.h"
 #include "font.h"
 #include "bullets.h"
+#include "timer.h"
 
 static PyObject* renderer_init(PyObject* self, PyObject* args)
 {
@@ -103,14 +104,21 @@ static PyObject* renderer_vertex(PyObject* self, PyObject* args)
 	return Py_None;
 }
 
-long frame_time = 0;
 static PyObject* renderer_set_frame_time(PyObject* self, PyObject* args)
 {
+	long frame_time;
 	if(!PyArg_ParseTuple(args, "i", &frame_time))
 	   return NULL;
 
+	timer_set_frame_time(frame_time);
+
 	Py_INCREF(Py_None);
 	return Py_None;
+}
+
+static PyObject* renderer_ftime(PyObject* self, PyObject* args)
+{
+	return PyFloat_FromDouble(timer_get_time());
 }
 
 static PyObject* renderer_bullets_draw(PyObject* self, PyObject* args)
@@ -319,6 +327,7 @@ static PyMethodDef renderer_methods[] =
 	{"vertex", renderer_vertex, METH_VARARGS, "Loads a vertex into the renderer"},
 	{"shutdown", renderer_shutdown, METH_VARARGS, "shuts down the renderer subsystem"},
 	{"set_frame_time", renderer_set_frame_time, METH_VARARGS, "Sets the current frame time for C code"},
+	{"ftime", renderer_ftime, METH_VARARGS, "Get current frame time in seconds"},
 	{"bullets_draw", renderer_bullets_draw, METH_VARARGS, "Draws all current bullets on the screen"},
 	{"bullets_do_frame", renderer_bullets_do_frame, METH_VARARGS, "Calculates one frame of bullet motion"},
 	{"bullets_count", renderer_bullets_count, METH_VARARGS, "Returns the number of active bullets"},

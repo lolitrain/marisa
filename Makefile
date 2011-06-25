@@ -1,7 +1,7 @@
 CFLAGS=-g -Wall -I/usr/include/python2.7
 LDFLAGS=-lGL -lpng
 
-SRCS=renderer.c texture.c gl_renderer.c sprite.c font.c bullets.c
+SRCS=renderer.c texture.c gl_renderer.c sprite.c font.c bullets.c timer.c
 OBJS=$(SRCS:.c=.o)
 
 %.d:%.c

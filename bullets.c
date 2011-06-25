@@ -4,11 +4,10 @@
 #include "bullets.h"
 #include "sprite.h"
 #include "gl_math.h"
+#include "timer.h"
 
 static struct list_head bullet_list = INIT_LIST_HEAD(bullet_list);
-extern long frame_time;
-int bullet_count = 0;
-
+static int bullet_count = 0;
 
 int bullet_create(struct sprite* s, struct vector2d start, struct vector2d headto, float speed)
 {
@@ -44,7 +43,7 @@ void bullet_destroy(struct simple_bullet* b)
 
 void bullet_do_frame(struct simple_bullet* b)
 {
-	b->pos = vec_add(b->pos, scalar_mult(b->velocity, frame_time));
+	b->pos = vec_add(b->pos, scalar_mult(b->velocity, timer_get_time()));
 }
 
 void bullet_draw(struct simple_bullet* b)

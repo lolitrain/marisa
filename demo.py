@@ -8,10 +8,8 @@ import inputmanager
 import bulletmanager
 from pygame.locals import *
 from math import *
+from renderer import ftime
 import timer
-
-def ftime():
-    return timer.frame_time/float(1000)
 
 class PlayerScript:
     def __init__(self):
@@ -28,8 +26,6 @@ class PlayerScript:
         inputmanager.bind(K_UP, getattr(self, "thrust_forward"))
         inputmanager.bind(K_DOWN, getattr(self, "thrust_back"))
         inputmanager.bind(K_z, getattr(self, "shoot"))
-
-        print self.angle
 
     def shoot(self, active):
         if active:
@@ -85,8 +81,7 @@ class PlayerShot:
         @coroutine
         def do_frame(self):
             while(True):
-                bulletmanager.add_bullet_angle(self.bullet, self.player.pos, self.player.angle, 0.5)
-                print self.player.angle
+                bulletmanager.add_bullet_angle(self.bullet, self.player.pos, self.player.angle, self.player.speed+400)
                 
                 for w in timer.wait(100):
                     yield
